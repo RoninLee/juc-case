@@ -13,14 +13,13 @@ public class T10_TransferQueue {
         char[] num = "123456789".toCharArray();
         char[] letter = "ABCDEFGHI".toCharArray();
 
-        TransferQueue<Character> numTransferQueue = new LinkedTransferQueue<>();
-        TransferQueue<Character> letterTransferQueue = new LinkedTransferQueue<>();
+        TransferQueue<Character> queue = new LinkedTransferQueue<>();
 
         new Thread(() -> {
             for (char c : num) {
                 try {
-                    numTransferQueue.put(c);
-                    System.out.print(letterTransferQueue.take());
+                    queue.transfer(c);
+                    System.out.print(queue.take());
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -29,8 +28,8 @@ public class T10_TransferQueue {
         new Thread(() -> {
             for (char c : letter) {
                 try {
-                    System.out.print(numTransferQueue.take());
-                    letterTransferQueue.put(c);
+                    System.out.print(queue.take());
+                    queue.transfer(c);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
